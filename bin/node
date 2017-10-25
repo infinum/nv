@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -e
+
+NV_FILE=".node-version"
+NV_ROOT="$HOME/$NV_FILE"
+
+function upsearch_version() {
+  test / == "$PWD" && return || test -e "$NV_FILE" && echo "$PWD/$NV_FILE" && return || cd .. && upsearch_version "$NV_FILE"
+}
+
+function get_bin() {
+  echo "/usr/local/nv/versions/$1/bin/node"
+}
+
+function run_native() {
+  [[ -f /usr/local/bin/node ]]; exec /usr/local/bin/node "$@"
+  [[ -f /usr/bin/node ]]; exec /usr/local/bin/node "$@"
+  return 1
+}
+
+function show_debug() {
+  if [[ -n "$NV_DEBUG" ]]; then
+    echo "Found .node-version in $1"
+    echo "Using bin $2"
+  fi
+}
+
+VERSION=""
+FILE=""
+BIN=""
+
+if [[ -f ./.node-version ]]
+then
+  FILE="./.node-version"
+elif [[ -f $(upsearch_version) ]]
+then
+  FILE=$(upsearch_version)
+elif [[ -f $NV_ROOT ]]
+then
+  FILE=$NV_ROOT
+fi
+
+VERSION=$(cat $FILE)
+BIN=$(get_bin $VERSION)
+show_debug "$FILE" "$BIN"
+[[ -f $BIN ]] && exec "$BIN" "$@" 
+run_native "$@"
