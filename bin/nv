@@ -442,11 +442,12 @@ init_bin() {
   fi
 }
 
+test -d "$VERSIONS_DIR" || install_nv
+
 #
 # Handle arguments.
 #
 if test $# -eq 0; then
-  test -d "$VERSIONS_DIR" || install_nv
   display_help
 else
   while test $# -ne 0; do
