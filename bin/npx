@@ -9,12 +9,12 @@ function upsearch_version() {
 }
 
 function get_bin() {
-  echo "/usr/local/share/nv/versions/$1/bin/node"
+  echo "/usr/local/share/nv/versions/$1/bin/npx"
 }
 
 function run_native() {
-  [[ -f /usr/local/bin/node ]]; exec /usr/local/bin/node "$@"
-  [[ -f /usr/bin/node ]]; exec /usr/local/bin/node "$@"
+  [[ -f /usr/local/bin/npx ]]; exec /usr/local/bin/npx "$@"
+  [[ -f /usr/bin/npx ]]; exec /usr/local/bin/npx "$@"
   return 1
 }
 

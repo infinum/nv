@@ -4,7 +4,7 @@
 # Setup.
 #
 VERSION="2.1.8"
-N_PREFIX=${N_PREFIX-/usr/local}
+N_PREFIX=${N_PREFIX-/usr/local/share}
 BASE_VERSIONS_DIR=$N_PREFIX/nv/versions
 
 #
@@ -67,8 +67,8 @@ ARCH=
 install_nv() {
   echo "Running NV for the first time. I will setup up everything for you."
   echo "Creating the versions folder, will need sudo for this:"
-  sudo mkdir -p "$VERSIONS_DIR"
-  sudo chown -R "$(id -un)":"$(id -gn)" "$N_PREFIX/nv"
+  mkdir -p "$VERSIONS_DIR"
+  chown -R "$(id -un)":"$(id -gn)" "$N_PREFIX/nv"
 }
 
 #
@@ -438,7 +438,7 @@ init_bin() {
     echo
     echo "eval \$(nv init -)"
   else
-    echo "export PATH=/Users/andrei/Code/nv/bin:$PATH"
+    echo "export PATH=$N_PREFIX/nv/shims:$PATH"
   fi
 }
 

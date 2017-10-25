@@ -2,12 +2,14 @@ PREFIX ?= /usr/local
 
 install: bin/nv
 	mkdir -p $(PREFIX)/$(dir $<)
-	sudo mkdir -p $(PREFIX)/nv/
+	mkdir -p $(PREFIX)/share/nv/shims
 	cp $< $(PREFIX)/$<
-	sudo cp bin/node $(PREFIX)/nv/
+	cp bin/node $(PREFIX)/share/nv/shims
+	cp bin/npm $(PREFIX)/share/nv/shims
+	cp bin/npx $(PREFIX)/share/nv/shims
 
 uninstall:
 	rm -f $(PREFIX)/bin/nv
-	sudo rm -rf $(PREFIX)/nv/
+	rm -rf $(PREFIX)/share/nv/
 
 .PHONY: install uninstall
